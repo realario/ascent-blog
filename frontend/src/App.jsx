@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ToastContainer } from "react-toastify"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Layout from "./components/Layout";
+import PostList from "./components/PostList";
+import PostPage from "./context/PostPage";
+import NotFound from "./pages/NotFound";
+import { PostsProvider } from "./context/PostsContext";
 
 function App() {
-  const [count, setCount] = useState(0)
+    return (
+        <PostsProvider>
+            <Router>
+                <ToastContainer
+                    limit={1}
+                    pauseOnHover={false}
+                    pauseOnFocusLoss={false}
+                />
+                <Navbar />
+                <Layout>
+                    <Routes>
+                        {/* Home / Feed */}
+                        <Route path="/" element={<PostList />} />
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+                        {/* Single-Post View */}
+                        <Route path="/posts/:id" element={<PostPage />} />
+
+                        {/* 404 */}
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </Layout>
+            </Router>
+        </PostsProvider>
+    );
 }
 
-export default App
+export default App;
