@@ -22,13 +22,37 @@ const getAllPosts = (req, res) => {
 };
 
 const getPostById = (req, res) => {
-    const id = parseInt(req.params.id);
-    const post = posts.find((p) => p.id === id);
+    const id = req.params.id;
+    const post = posts.find((post) => post.id === id);
     if (!post) return res.status(404).json({ message: "Post not found" });
     res.json(post);
+};
+
+const deletePost = (req, res) => {
+    const id = req.params.id;
+    const postIndex = posts.findIndex((post) => post.id === id);
+    if (postIndex === -1) {
+        return res.status(404).json({ message: "Post not found" });
+    }
+    const deletedPost = posts.splice(postIndex, 1)[0];
+    res.status(200).json({
+        message: "Post deleted successfully",
+        deletedPost,
+    });
+};
+
+const createPost = (req, res) => {
+    const { title, content } = req.body;
+    if (!title || title.trim().length < 3) return res.status(400).json({ message: "Title must be at least 3 characters" });
+    if (!content || content.trim().length < 10) return res.status(400).json({ message: "Content must be at least 10 characters" });
+    const newPost = new Post(title, content);
+    posts.unshift(newPost);
+    res.status(201).json(newPost);
 };
 
 module.exports = {
     getAllPosts,
     getPostById,
+    deletePost,
+    createPost,
 };
