@@ -1,0 +1,18 @@
+.custom-toast-error {
+    font-family: "Newsreader";
+    font-weight: 800;
+    background: #D93A30 !important;
+}
+
+.custom-toast-success {
+    font-family: "Newsreader";
+    font-weight: 800;
+    background: #4CAF50 !important;
+}
+
+.custom-toast-neutral {
+    font-family: "Newsreader";
+    font-weight: 800;
+    background: #4A4A4F !important;
+    color: #FFFFFF !important;
+}
